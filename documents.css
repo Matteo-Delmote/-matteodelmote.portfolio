@@ -14,6 +14,7 @@ body {
   color: #f0f0f0;
   background: linear-gradient(120deg, #191a1f 60%, #23242a 100%);
   text-align: center;
+  min-height: 100vh;
 }
 header {
   background-color: #23242a;
@@ -33,33 +34,53 @@ header {
   flex-wrap: wrap;
 }
 .logo {
-  font-size: 1.6rem;
+  font-size: 1.7rem;
   font-weight: 700;
   color: #ff5252;
   letter-spacing: 1px;
   text-shadow: 1px 2px 8px #1e1f24;
 }
 .nav-links {
-  list-style: none;
   display: flex;
   gap: 25px;
+  padding-left: 0;
+  list-style: none;
+}
+.nav-links li {
+  position: relative;
+  padding-left: 14px;
+}
+.nav-links li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #ff5252;
+  font-size: 1em;
+  font-weight: bold;
+  transition: color 0.25s;
 }
 .nav-links a {
   color: #f0f0f0;
   text-decoration: none;
   font-weight: 500;
-  padding: 7px 12px;
+  padding: 5px 12px;
   border-radius: 6px;
   transition: all 0.25s ease;
   font-size: 1.08rem;
+  position: relative;
+  z-index: 1;
 }
 .nav-links a:hover, .nav-links a.active {
   background-color: #ff5252;
   color: #fff;
-  box-shadow: 0 2px 8px 0 rgba(255,82,82,0.10);
+}
+.nav-links li:hover::before, .nav-links a.active + li::before {
+  color: #fff;
 }
 .section {
-  padding: 70px 20px;
+  padding: 80px 20px;
   background: linear-gradient(120deg, #23242a 60%, #292a33 100%);
   border-radius: 18px;
   box-shadow: 0 4px 24px 0 rgba(0,0,0,0.12);
@@ -68,10 +89,10 @@ header {
   max-width: 1100px;
 }
 .section-title {
-  font-size: 2.2rem;
+  font-size: 2.3rem;
   font-weight: 700;
   color: #ff5252;
-  margin-bottom: 36px;
+  margin-bottom: 40px;
   letter-spacing: 1px;
   text-shadow: 1px 2px 8px #1e1f24;
 }

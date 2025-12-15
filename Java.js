@@ -5,33 +5,23 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const formData = new FormData(form);
-      const action = form.action;
-      try {
-        const response = await fetch(action, {
-          method: form.method,
-          body: formData,
-          headers: { 'Accept': 'application/json' }
-        });
-        if (response.ok) {
-          responseMsg.textContent = "✅ Message envoyé avec succès !";
-          responseMsg.style.color = '#4caf50';
-          form.reset();
-        } else {
-          responseMsg.textContent = "❌ Une erreur est survenue, réessayez.";
-          responseMsg.style.color = '#ff5252';
-        }
-      } catch (error) {
-        responseMsg.textContent = "❌ Une erreur est survenue, réessayez.";
-        responseMsg.style.color = '#ff5252';
+      // Construction du mailto
+      const subject = encodeURIComponent('Contact depuis le portfolio');
+      let body = '';
+      for (const [key, value] of formData.entries()) {
+        body += `${key}: ${value}\n`;
       }
+      const mailto = `mailto:matteodelmote59@gmail.com?subject=${subject}&body=${encodeURIComponent(body)}`;
+      window.location.href = mailto;
+      responseMsg.textContent = "✅ Votre client mail va s'ouvrir pour envoyer le message.";
+      responseMsg.style.color = '#4caf50';
       responseMsg.style.opacity = 1;
       setTimeout(() => {
         responseMsg.style.opacity = 0;
       }, 4000);
+      form.reset();
     });
   }
-
-  // Scroll fluide vers la section contact
   const contactBtn = document.querySelector('a[href="#contact"]');
   const contactSection = document.getElementById('contact');
   if (contactBtn && contactSection) {
