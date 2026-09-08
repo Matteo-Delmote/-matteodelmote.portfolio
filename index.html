@@ -1,0 +1,713 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mattéo Delmote — Portfolio BTS SIO SISR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0F1419;
+    --bg-elevated:#161D26;
+    --bg-card:#131A22;
+    --line:#26313D;
+    --text:#E7EDF3;
+    --text-dim:#8A97A6;
+    --text-faint:#586372;
+    --accent:#FFB454;
+    --accent-soft:rgba(255,180,84,.12);
+    --teal:#5FD4C4;
+    --sidebar-w:280px;
+    --radius:3px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--accent-soft);color:var(--accent);}
+  a{color:inherit;}
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif;margin:0;letter-spacing:-0.01em;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+
+  /* ---------- Sidebar ---------- */
+  .sidebar{
+    position:fixed;
+    top:0;
+    left:0;
+    width:var(--sidebar-w);
+    height:100vh;
+    overflow-y:auto;
+    background:var(--bg-elevated);
+    border-right:1px solid var(--line);
+    display:flex;
+    flex-direction:column;
+    z-index:100;
+    scrollbar-width:thin;
+    scrollbar-color:var(--line) transparent;
+  }
+  .sidebar::-webkit-scrollbar{width:6px;}
+  .sidebar::-webkit-scrollbar-thumb{background:var(--line);border-radius:4px;}
+
+  .sidebar-header{
+    padding:32px 28px 24px;
+    border-bottom:1px solid var(--line);
+  }
+  .sidebar-id{
+    font-size:12px;
+    color:var(--teal);
+    margin-bottom:6px;
+  }
+  .sidebar-header h1{
+    font-size:21px;
+    font-weight:600;
+    color:var(--text);
+  }
+  .sidebar-header p{
+    margin:6px 0 0;
+    font-size:13px;
+    color:var(--text-dim);
+  }
+
+  .nav-topo{
+    flex:1;
+    padding:20px 0 28px;
+    position:relative;
+  }
+  .nav-topo::before{
+    content:"";
+    position:absolute;
+    left:39px;
+    top:8px;
+    bottom:8px;
+    width:1px;
+    background:var(--line);
+  }
+  .nav-group{padding:4px 0 14px;}
+  .nav-group-label{
+    font-size:11px;
+    color:var(--text-faint);
+    padding:8px 28px 6px 28px;
+    font-family:'IBM Plex Mono',monospace;
+  }
+  .nav-link{
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:9px 28px 9px 28px;
+    text-decoration:none;
+    color:var(--text-dim);
+    font-size:14px;
+    transition:color .15s ease;
+  }
+  .nav-link .dot{
+    position:relative;
+    z-index:1;
+    flex:0 0 auto;
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:var(--bg-elevated);
+    border:1px solid var(--text-faint);
+    transition:all .2s ease;
+  }
+  .nav-link span.lbl{
+    transition:color .15s ease;
+  }
+  .nav-link .addr{
+    margin-left:auto;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;
+    color:var(--text-faint);
+    opacity:0;
+    transition:opacity .15s ease;
+  }
+  .nav-link:hover{color:var(--text);}
+  .nav-link:hover .addr{opacity:1;}
+  .nav-link.active{color:var(--text);}
+  .nav-link.active .dot{
+    background:var(--accent);
+    border-color:var(--accent);
+    box-shadow:0 0 0 4px var(--accent-soft);
+  }
+  .nav-link.active .addr{opacity:1;color:var(--accent);}
+
+  .sidebar-footer{
+    padding:18px 28px 26px;
+    border-top:1px solid var(--line);
+    font-size:12px;
+    color:var(--text-faint);
+    font-family:'IBM Plex Mono',monospace;
+    line-height:1.7;
+  }
+  .sidebar-footer a{color:var(--text-dim);text-decoration:none;}
+  .sidebar-footer a:hover{color:var(--accent);}
+
+  .menu-toggle{
+    display:none;
+    position:fixed;
+    top:16px;
+    right:16px;
+    z-index:200;
+    width:44px;
+    height:44px;
+    background:var(--bg-elevated);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+  }
+  .menu-toggle span{
+    display:block;
+    width:18px;
+    height:1.5px;
+    background:var(--text);
+    position:relative;
+  }
+  .menu-toggle span::before,.menu-toggle span::after{
+    content:"";
+    position:absolute;
+    left:0;
+    width:18px;
+    height:1.5px;
+    background:var(--text);
+  }
+  .menu-toggle span::before{top:-6px;}
+  .menu-toggle span::after{top:6px;}
+
+  /* ---------- Main ---------- */
+  main{
+    margin-left:var(--sidebar-w);
+  }
+  section{
+    padding:110px 64px;
+    max-width:840px;
+    border-bottom:1px solid var(--line);
+  }
+  section:last-of-type{border-bottom:none;}
+  .kicker{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    color:var(--teal);
+    margin-bottom:18px;
+  }
+  h2{font-size:34px;font-weight:600;margin-bottom:8px;}
+  .lede{
+    font-size:17px;
+    color:var(--text-dim);
+    max-width:60ch;
+    margin-top:16px;
+  }
+
+  /* Hero */
+  #accueil{padding-top:130px;}
+  .hero-name{font-size:52px;font-weight:700;line-height:1.08;}
+  .hero-role{
+    font-size:19px;
+    color:var(--accent);
+    margin-top:14px;
+    font-weight:500;
+  }
+  .hero-desc{
+    font-size:17px;
+    color:var(--text-dim);
+    max-width:56ch;
+    margin-top:22px;
+  }
+  .hero-meta{
+    display:flex;
+    gap:28px;
+    margin-top:40px;
+    flex-wrap:wrap;
+  }
+  .hero-meta div{font-size:13px;}
+  .hero-meta .k{color:var(--text-faint);font-family:'IBM Plex Mono',monospace;font-size:11px;margin-bottom:4px;}
+  .hero-meta .v{color:var(--text);}
+
+  /* Profil */
+  .profile-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:36px;
+    margin-top:36px;
+  }
+  .profile-block h3{font-size:14px;color:var(--text-faint);font-family:'IBM Plex Mono',monospace;font-weight:400;margin-bottom:14px;}
+  .tag-row{display:flex;flex-wrap:wrap;gap:8px;}
+  .tag{
+    padding:6px 12px;
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    font-size:13px;
+    color:var(--text-dim);
+  }
+  .lang-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px;}
+  .lang-row:last-child{border-bottom:none;}
+  .lang-row .lvl{color:var(--text-faint);font-family:'IBM Plex Mono',monospace;font-size:12px;}
+
+  /* Timeline */
+  .timeline{margin-top:40px;position:relative;padding-left:26px;}
+  .timeline::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:1px;background:var(--line);}
+  .t-item{position:relative;padding-bottom:36px;}
+  .t-item:last-child{padding-bottom:0;}
+  .t-item::before{
+    content:"";
+    position:absolute;
+    left:-26px;
+    top:5px;
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:var(--bg);
+    border:1px solid var(--accent);
+  }
+  .t-date{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--teal);margin-bottom:6px;}
+  .t-title{font-size:17px;font-weight:600;font-family:'Space Grotesk',sans-serif;}
+  .t-org{font-size:14px;color:var(--text-dim);margin-top:2px;}
+  .t-list{margin:12px 0 0;padding-left:18px;color:var(--text-dim);font-size:14px;}
+  .t-list li{margin-bottom:4px;}
+
+  /* Compétences */
+  .comp-indicators{
+    margin-top:30px;
+    display:flex;
+    flex-direction:column;
+    gap:0;
+  }
+  .comp-cap{
+    border:1px solid var(--line);
+    background:var(--bg-card);
+    border-radius:var(--radius);
+    padding:22px 24px;
+    margin-bottom:14px;
+  }
+  .comp-cap-title{font-size:15px;font-weight:600;font-family:'Space Grotesk',sans-serif;margin-bottom:6px;}
+  .comp-cap p{font-size:14px;color:var(--text-dim);margin:0;}
+  .exp-note{
+    margin-top:28px;
+    padding:18px 22px;
+    border-left:2px solid var(--accent);
+    background:var(--accent-soft);
+    border-radius:0 var(--radius) var(--radius) 0;
+  }
+  .exp-note .k{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent);margin-bottom:6px;}
+  .exp-note p{margin:0;font-size:14px;color:var(--text);}
+
+  /* Projets */
+  .project-grid{margin-top:36px;display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
+  .project{background:var(--bg-card);padding:26px 26px;display:grid;grid-template-columns:120px 1fr;gap:24px;}
+  .project .p-tag{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-faint);padding-top:3px;}
+  .project h3{font-size:16px;font-weight:600;margin-bottom:6px;}
+  .project p{font-size:14px;color:var(--text-dim);margin:0;}
+
+  /* Contact */
+  .contact-grid{margin-top:36px;display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .contact-card{
+    border:1px solid var(--line);
+    background:var(--bg-card);
+    border-radius:var(--radius);
+    padding:22px 24px;
+    text-decoration:none;
+    display:block;
+    transition:border-color .15s ease;
+  }
+  .contact-card:hover{border-color:var(--accent);}
+  .contact-card .k{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-faint);margin-bottom:8px;}
+  .contact-card .v{font-size:15px;color:var(--text);}
+  footer{
+    max-width:840px;
+    padding:0 64px 60px;
+    color:var(--text-faint);
+    font-size:12px;
+    font-family:'IBM Plex Mono',monospace;
+  }
+
+  @media (max-width:880px){
+    :root{--sidebar-w:240px;}
+    section{padding:80px 32px;}
+    .profile-grid{grid-template-columns:1fr;}
+    .contact-grid{grid-template-columns:1fr;}
+    .project{grid-template-columns:1fr;gap:6px;}
+    footer{padding:0 32px 50px;}
+  }
+
+  @media (max-width:680px){
+    .menu-toggle{display:flex;}
+    .sidebar{
+      transform:translateX(-100%);
+      transition:transform .25s ease;
+      box-shadow:20px 0 40px rgba(0,0,0,.4);
+    }
+    .sidebar.open{transform:translateX(0);}
+    main{margin-left:0;}
+    .hero-name{font-size:38px;}
+    h2{font-size:27px;}
+    section{padding:70px 22px;}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    *{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<button class="menu-toggle" id="menuToggle" aria-label="Ouvrir la navigation"><span></span></button>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-id mono">MD // BTS SIO SISR</div>
+    <h1>Mattéo Delmote</h1>
+    <p>Administrateur réseau &amp; — en formation</p>
+  </div>
+
+  <div class="nav-topo">
+    <div class="nav-group">
+      <div class="nav-group-label">01 — présentation</div>
+      <a class="nav-link" href="#accueil" data-target="accueil"><span class="dot"></span><span class="lbl">Accueil</span><span class="addr mono"></span></a>
+      <a class="nav-link" href="#profil" data-target="profil"><span class="dot"></span><span class="lbl">Profil</span><span class="addr mono"></span></a>
+      <a class="nav-link" href="#parcours" data-target="parcours"><span class="dot"></span><span class="lbl">Parcours</span><span class="addr mono"></span></a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-label">02 — compétences</div>
+      <a class="nav-link" href="#competence-1" data-target="competence-1"><span class="dot"></span><span class="lbl">Gérer le patrimoine info.</span><span class="addr mono"></span></a>
+      <a class="nav-link" href="#competence-2" data-target="competence-2"><span class="dot"></span><span class="lbl">Incidents &amp; assistance</span><span class="addr mono"></span></a>
+      <a class="nav-link" href="#competence-3" data-target="competence-3"><span class="dot"></span><span class="lbl">Présence en ligne</span><span class="addr mono"></span></a>
+      <a class="nav-link" href="#competence-4" data-target="competence-4"><span class="dot"></span><span class="lbl">Mode projet</span><span class="addr mono"></span></a>
+      <a class="nav-link" href="#competence-5" data-target="competence-5"><span class="dot"></span><span class="lbl">Mise à disposition</span><span class="addr mono"></span></a>
+      <a class="nav-link" href="#competence-6" data-target="competence-6"><span class="dot"></span><span class="lbl">Dév. professionnel</span><span class="addr mono"></span></a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-label">03 — réalisations</div>
+      <a class="nav-link" href="#projets" data-target="projets"><span class="dot"></span><span class="lbl">Projets et réalisations</span><span class="addr mono"></span></a>
+      <a class="nav-link" href="#contact" data-target="contact"><span class="dot"></span><span class="lbl">Contact</span><span class="addr mono"></span></a>
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <div>06.58.41.76.98</div>
+    <div><a href="mailto:matteodelmote59@gmail.com">matteodelmote59@gmail.com</a></div>
+    <div>Lille, 59800</div>
+  </div>
+</nav>
+
+<main>
+
+  <section id="accueil">
+    <div class="kicker">// portfolio de compétences — BTS SIO option SISR</div>
+    <h1 class="hero-name">Mattéo Delmote</h1>
+    <div class="hero-role">Solutions d'Infrastructure, Systèmes et Réseaux</div>
+    <p class="hero-desc">Étudiant en deuxième année de BTS SIO au Lycée Gaston Berger, je m'intéresse au fonctionnement des infrastructures informatiques : réseaux, systèmes, parc et sécurité. Ce portfolio rassemble mes compétences, mon parcours et mes réalisations, organisés selon la grille officielle d'évaluation du BTS.</p>
+    <div class="hero-meta">
+      <div><div class="k">FORMATION</div><div class="v">BTS SIO option SISR — Lycée Gaston Berger</div></div>
+      <div><div class="k">PROJET PROFESSIONNEL</div><div class="v">Administrateur réseau</div></div>
+      <div><div class="k">LOCALISATION</div><div class="v">Lille, 59800</div></div>
+    </div>
+  </section>
+
+  <section id="profil">
+    <div class="kicker">01.02</div>
+    <h2>Profil</h2>
+    <p class="lede">Un aperçu de mes qualités, de mes compétences techniques et de ce qui m'anime en dehors des cours.</p>
+    <div class="profile-grid">
+      <div class="profile-block">
+        <h3>QUALITÉS</h3>
+        <div class="tag-row">
+          <span class="tag">Motivé</span>
+          <span class="tag">Patient</span>
+          <span class="tag">Esprit d'équipe</span>
+          <span class="tag">Sérieux</span>
+          <span class="tag">Sociable</span>
+        </div>
+      </div>
+      <div class="profile-block">
+        <h3>CENTRES D'INTÉRÊT</h3>
+        <div class="tag-row">
+          <span class="tag">Informatique</span>
+          <span class="tag"></span>
+          <span class="tag">Sport automobile</span>
+        </div>
+      </div>
+      <div class="profile-block">
+        <h3>COMPÉTENCES INFORMATIQUES</h3>
+        <div class="tag-row">
+          <span class="tag">Montage d'ordinateur</span>
+          <span class="tag">Création de machine virtuelle</span>
+          <span class="tag">Gestion d'incidents</span>
+        </div>
+      </div>
+      <div class="profile-block">
+        <h3>LANGUES</h3>
+        <div class="lang-row"><span>Français</span><span class="lvl">LANGUE MATERNELLE</span></div>
+        <div class="lang-row"><span>Anglais</span><span class="lvl">NIVEAU B1</span></div>
+        <div class="lang-row"><span>Espagnol</span><span class="lvl">NIVEAU B1</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="parcours">
+    <div class="kicker">01.03</div>
+    <h2>Parcours</h2>
+    <p class="lede">Diplômes obtenus et stages réalisés au fil de ma formation.</p>
+
+    <div class="timeline">
+      <div class="t-item">
+        <div class="t-date">2018 — 2022</div>
+        <div class="t-title">Brevet des collèges</div>
+      </div>
+      <div class="t-item">
+        <div class="t-date">2022 — 2025</div>
+        <div class="t-title">Bac Pro SN — mention assez bien</div>
+      </div>
+      <div class="t-item">
+        <div class="t-date">2024</div>
+        <div class="t-title">Habilitation électrique B0, B1V, BR (théorique)</div>
+      </div>
+      <div class="t-item">
+        <div class="t-date">2025</div>
+        <div class="t-title">Certification PIX</div>
+      </div>
+      <div class="t-item">
+        <div class="t-date">2022 — 2023</div>
+        <div class="t-title">Stage de seconde — DSEM de la Poste</div>
+        <ul class="t-list">
+          <li>Enrôlement de téléphones à distance</li>
+          <li>Observation de dépannage d'ordinateur à distance</li>
+        </ul>
+      </div>
+      <div class="t-item">
+        <div class="t-date">2023 — 2024</div>
+        <div class="t-title">Stage de première — Loison</div>
+        <ul class="t-list">
+          <li>Installation de Windows avec Ventoy</li>
+          <li>Création de VM sur VirtualBox</li>
+          <li>Déploiement logiciel et déploiement d'ordinateur</li>
+          <li>Assistance informatique et gestion du parc informatique</li>
+        </ul>
+      </div>
+      <div class="t-item">
+        <div class="t-date">2024 — 2025</div>
+        <div class="t-title">Stage de terminale — Dalkia</div>
+        <ul class="t-list">
+          <li>Audit cybersécurité</li>
+          <li>Déploiement d'ordinateur</li>
+          <li>Assistance informatique et gestion du parc informatique</li>
+        </ul>
+      </div>
+      <div class="t-item">
+        <div class="t-date">2026</div>
+        <div class="t-title">Stage de 1ère Année BTS SIO — Domoti</div>
+        <ul class="t-list">
+          <li>Déploiement de XCP-NG et Patchmon</li>
+          <li>Déploiement d'ordinateur</li>
+          <li>Assistance informatique et gestion du parc informatique</li>
+        </ul>
+      </div>
+  </section>
+
+  <section id="competence-1">
+    <div class="kicker">02.01</div>
+    <h2>Gérer le patrimoine informatique</h2>
+    <p class="lede">Recenser les ressources numériques, appliquer les normes du prestataire, gérer les habilitations et les sauvegardes.</p>
+    <div class="comp-indicators">
+      <div class="comp-cap"><div class="comp-cap-title">Recenser et identifier les ressources numériques</div><p>Constituer un inventaire exhaustif du parc à l'aide d'un outil de gestion des actifs.</p></div>
+      <div class="comp-cap"><div class="comp-cap-title">Exploiter des référentiels, normes et standards</div><p>Appliquer les standards adoptés par le prestataire informatique de façon pertinente.</p></div>
+      <div class="comp-cap"><div class="comp-cap-title">Mettre en place et vérifier les niveaux d'habilitation</div><p>S'assurer que les droits accordés correspondent aux habilitations réelles des utilisateurs.</p></div>
+      <div class="comp-cap"><div class="comp-cap-title">Vérifier la continuité et gérer les sauvegardes</div><p>Contrôler les conditions de reprise d'un service et réaliser des sauvegardes conformes au plan prévu, puis les tester.</p></div>
+    </div>
+    <div class="exp-note">
+      <div class="k">EXPÉRIENCE LIÉE</div>
+      <p>Chez Loison et chez Dalkia, j'ai participé à la gestion du parc informatique : suivi des postes, déploiement de machines virtuelles sous VirtualBox, et installation maîtrisée de Windows via Ventoy.</p>
+    </div>
+  </section>
+
+  <section id="competence-2">
+    <div class="kicker">02.02</div>
+    <h2>Répondre aux incidents et aux demandes d'assistance</h2>
+    <p class="lede">Collecter, suivre et orienter les demandes concernant les services réseau, système et applicatifs.</p>
+    <div class="comp-indicators">
+      <div class="comp-cap"><div class="comp-cap-title">Collecter, suivre et orienter des demandes</div><p>Prendre en compte une demande, la diagnostiquer et faire correspondre le traitement aux attentes de l'utilisateur.</p></div>
+      <div class="comp-cap"><div class="comp-cap-title">Traiter les demandes réseau, système et applicatives</div><p>Adapter la méthode de diagnostic et de résolution selon la nature de l'incident.</p></div>
+      <div class="comp-cap"><div class="comp-cap-title">Respecter le cycle de résolution</div><p>Utiliser les outils adaptés et respecter les normes et standards du prestataire informatique.</p></div>
+    </div>
+    <div class="exp-note">
+      <div class="k">EXPÉRIENCE LIÉE</div>
+      <p>L'assistance informatique a été une part récurrente de mes stages chez Loison et Dalkia : accompagnement des utilisateurs, dépannage et gestion des demandes du quotidien.</p>
+    </div>
+  </section>
+
+  <section id="competence-3">
+    <div class="kicker">02.03</div>
+    <h2>Développer la présence en ligne de l'organisation</h2>
+    <p class="lede">Valoriser l'image de l'organisation sur les médias numériques et référencer ses services en ligne.</p>
+    <div class="comp-indicators">
+      <div class="comp-cap"><div class="comp-cap-title">Valoriser l'image de l'organisation</div><p>Tenir compte du cadre juridique et des enjeux économiques liés à l'image numérique.</p></div>
+      <div class="comp-cap"><div class="comp-cap-title">Référencer les services en ligne</div><p>Rendre les services accessibles et mesurer leur visibilité auprès des utilisateurs.</p></div>
+      <div class="comp-cap"><div class="comp-cap-title">Participer à l'évolution d'un site web</div><p>Faire évoluer un site en exploitant les données de l'organisation.</p></div>
+    </div>
+    <div class="exp-note">
+      <div class="k">EXPÉRIENCE LIÉE</div>
+      <p>Ce portfolio est lui-même une application concrète de cette compétence : conception, structure et mise en ligne d'un site en HTML/CSS pensé pour présenter mon profil de façon claire.</p>
+    </div>
+  </section>
+
+  <section id="competence-4">
+    <div class="kicker">02.04</div>
+    <h2>Travailler en mode projet</h2>
+    <p class="lede">Analyser les objectifs d'un projet, planifier les activités et évaluer les indicateurs de suivi.</p>
+    <div class="comp-indicators">
+      <div class="comp-cap"><div class="comp-cap-title">Analyser les objectifs et l'existant</div><p>Poser une analyse des besoins pertinente selon une méthodologie donnée.</p></div>
+      <div class="comp-cap"><div class="comp-cap-title">Planifier les activités</div><p>Mobiliser les ressources humaines, matérielles et logicielles nécessaires de manière efficace.</p></div>
+      <div class="comp-cap"><div class="comp-cap-title">Évaluer les indicateurs et analyser les écarts</div><p>Documenter le projet et justifier les écarts entre le prévu et le réalisé.</p></div>
+    </div>
+    <div class="exp-note">
+      <div class="k">EXPÉRIENCE LIÉE</div>
+      <p>La construction de ce portfolio a suivi la même logique : découpage en rubriques, priorisation du contenu, puis réalisation et vérification du rendu final.</p>
+    </div>
+  </section>
+
+  <section id="competence-5">
+    <div class="kicker">02.05</div>
+    <h2>Mettre à disposition des utilisateurs un service informatique</h2>
+    <p class="lede">Tester, déployer et accompagner les utilisateurs dans la mise en place d'un service.</p>
+    <div class="comp-indicators">
+      <div class="comp-cap"><div class="comp-cap-title">Réaliser les tests d'intégration et d'acceptation</div><p>Produire un rapport de test structuré et exploitable.</p></div>
+      <div class="comp-cap"><div class="comp-cap-title">Déployer un service</div><p>S'assurer que le service déployé est opérationnel et satisfait l'utilisateur.</p></div>
+      <div class="comp-cap"><div class="comp-cap-title">Accompagner les utilisateurs</div><p>Rendre disponibles les modalités d'accompagnement nécessaires à la prise en main.</p></div>
+    </div>
+    <div class="exp-note">
+      <div class="k">EXPÉRIENCE LIÉE</div>
+      <p>Le déploiement de logiciels et d'ordinateurs chez Loison, ainsi que le déploiement de postes chez Dalkia, m'ont permis de mettre en pratique cette compétence sur le terrain.</p>
+    </div>
+  </section>
+
+  <section id="competence-6">
+    <div class="kicker">02.06</div>
+    <h2>Organiser son développement professionnel</h2>
+    <p class="lede">Mettre en place son environnement d'apprentissage, gérer son identité professionnelle et développer son projet.</p>
+    <div class="comp-indicators">
+      <div class="comp-cap"><div class="comp-cap-title">Mettre en œuvre des outils de veille informationnelle</div><p>Repérer les techniques et technologies émergentes du secteur informatique.</p></div>
+      <div class="comp-cap"><div class="comp-cap-title">Gérer son identité professionnelle</div><p>Renforcer ses compétences et rester visible sur son réseau professionnel.</p></div>
+      <div class="comp-cap"><div class="comp-cap-title">Développer son projet professionnel</div><p>Identifier les besoins de formation nécessaires pour progresser vers son objectif.</p></div>
+    </div>
+    <div class="exp-note">
+      <div class="k">EXPÉRIENCE LIÉE</div>
+      <p>L'habilitation électrique B0/B1V/BR et la certification PIX font partie de cette démarche, tout comme la veille que j'entretiens autour des réseaux et de la cybersécurité.</p>
+    </div>
+  </section>
+
+  <section id="projets">
+    <div class="kicker">03.01</div>
+    <h2>Projets et réalisations</h2>
+    <p class="lede">Une sélection de réalisations concrètes menées en formation ou en entreprise.</p>
+    <div class="project-grid">
+      <div class="project">
+        <div class="p-tag">WEB</div>
+        <div><h3>Portfolio personnel</h3><p>Conception et développement de ce site en HTML/CSS, structuré autour de la grille de compétences du BTS SIO.</p></div>
+      </div>
+      <div class="project">
+        <div class="p-tag">VIRTUALISATION</div>
+        <div><h3>Création de machines virtuelles</h3><p>Mise en place d'environnements virtualisés sous VirtualBox pour tests et déploiements, réalisée en stage chez Loison.</p></div>
+      </div>
+      <div class="project">
+        <div class="p-tag">DÉPLOIEMENT</div>
+        <div><h3>Déploiement de postes avec Ventoy</h3><p>Installation de Windows sur plusieurs postes à l'aide de Ventoy pour fiabiliser et accélérer les déploiements.</p></div>
+      </div>
+      <div class="project">
+        <div class="p-tag">SÉCURITÉ</div>
+        <div><h3>Audit cybersécurité</h3><p>Participation à un audit de sécurité informatique dans le cadre du stage de terminale chez Dalkia.</p></div>
+      </div>
+      <div class="project">
+        <div class="p-tag">MATÉRIEL</div>
+        <div><h3>Montage d'ordinateur</h3><p>Assemblage et configuration de postes informatiques, du choix des composants à la mise en service.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="kicker">03.02</div>
+    <h2>Contact</h2>
+    <p class="lede">Une question, une opportunité de stage ou d'alternance ? N'hésitez pas à me contacter.</p>
+    <div class="contact-grid">
+      <a class="contact-card" href="mailto:matteodelmote59@gmail.com">
+        <div class="k">EMAIL</div>
+        <div class="v">matteodelmote59@gmail.com</div>
+      </a>
+      <a class="contact-card" href="tel:0658417698">
+        <div class="k">TÉLÉPHONE</div>
+        <div class="v">06.58.41.76.98</div>
+      </a>
+      <div class="contact-card">
+        <div class="k">LINKEDIN</div>
+        <div class="v">Mattéo Delmote</div>
+      </div>
+      <div class="contact-card">
+        <div class="k">LOCALISATION</div>
+        <div class="v">Lille, 59800</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>Mattéo Delmote — BTS SIO option SISR — Lycée Gaston Berger</footer>
+
+</main>
+
+<script>
+(function(){
+  const links = Array.from(document.querySelectorAll('.nav-link'));
+  const sections = links
+    .map(link => document.getElementById(link.dataset.target))
+    .filter(Boolean);
+
+  function setActive(id){
+    links.forEach(link => {
+      link.classList.toggle('active', link.dataset.target === id);
+    });
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    // Pick the entry closest to the top of the viewport among those intersecting
+    const visible = entries.filter(e => e.isIntersecting);
+    if(visible.length === 0) return;
+    visible.sort((a,b) => a.boundingClientRect.top - b.boundingClientRect.top);
+    setActive(visible[0].target.id);
+  }, {
+    root: null,
+    rootMargin: '-15% 0px -70% 0px',
+    threshold: 0
+  });
+
+  sections.forEach(section => observer.observe(section));
+
+  // Activate first section on load
+  if(sections[0]) setActive(sections[0].id);
+
+  // Mobile menu toggle
+  const sidebar = document.getElementById('sidebar');
+  const menuToggle = document.getElementById('menuToggle');
+  menuToggle.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+  });
+  links.forEach(link => {
+    link.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
