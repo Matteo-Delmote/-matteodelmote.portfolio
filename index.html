@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mattéo Delmote — Portfolio BTS SIO SISR</title>
+  <meta name="description" content="Portfolio de Mattéo Delmote — étudiant BTS SIO SISR. Compétences en réseau, systèmes, virtualisation et sécurité. Contact pour stage/alternance à Lille.">
+  <!-- Open Graph -->
+  <meta property="og:title" content="Mattéo Delmote — Portfolio BTS SIO SISR">
+  <meta property="og:description" content="Portfolio de Mattéo Delmote — compétences en infrastructure, réseaux et sécurité.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -23,6 +29,19 @@
     --radius:3px;
   }
 
+  body.light-theme{
+    --bg:#F4F7FB;
+    --bg-elevated:#FFFFFF;
+    --bg-card:#F8FAFC;
+    --line:#D9E1EA;
+    --text:#18212B;
+    --text-dim:#4F5E6D;
+    --text-faint:#778596;
+    --accent:#C97814;
+    --accent-soft:rgba(201,120,20,.12);
+    --teal:#0D8A7A;
+  }
+
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{
@@ -39,6 +58,12 @@
   h1,h2,h3{font-family:'Space Grotesk',sans-serif;margin:0;letter-spacing:-0.01em;}
   .mono{font-family:'IBM Plex Mono',monospace;}
   :focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+
+  /* Skip link */
+  .skip-link{
+    position:fixed;left:12px;top:12px;padding:8px 12px;background:var(--bg-elevated);color:var(--text);border:1px solid var(--line);border-radius:4px;transform:translateY(-120%);transition:transform .18s ease;z-index:1000;text-decoration:none;font-family:'IBM Plex Mono',monospace;font-size:13px;
+  }
+  .skip-link:focus{transform:translateY(0);outline:none;}
 
   /* ---------- Sidebar ---------- */
   .sidebar{
@@ -78,6 +103,18 @@
     font-size:13px;
     color:var(--text-dim);
   }
+
+  .theme-toggle{
+    margin:18px 28px 0;
+    display:inline-flex;align-items:center;gap:8px;
+    padding:8px 12px;border:1px solid var(--line);border-radius:999px;
+    background:var(--bg-card);color:var(--text);cursor:pointer;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;
+    transition:border-color .15s ease, background .15s ease, transform .15s ease;
+  }
+  .theme-toggle:hover{border-color:var(--accent);transform:translateY(-1px);}
+  .theme-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+  .theme-toggle .theme-toggle-icon{font-size:12px;}
 
   .nav-topo{
     flex:1;
@@ -278,6 +315,16 @@
   .t-org{font-size:14px;color:var(--text-dim);margin-top:2px;}
   .t-list{margin:12px 0 0;padding-left:18px;color:var(--text-dim);font-size:14px;}
   .t-list li{margin-bottom:4px;}
+  .doc-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;}
+  .doc-btn{
+    display:inline-flex;align-items:center;justify-content:center;
+    padding:9px 14px;border-radius:var(--radius);border:1px solid var(--line);
+    background:var(--bg-card);color:var(--text);text-decoration:none;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.02em;
+    transition:border-color .15s ease, background .15s ease, transform .15s ease;
+  }
+  .doc-btn:hover{border-color:var(--accent);background:var(--accent-soft);transform:translateY(-1px);}
+  .doc-btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
 
   /* Compétences */
   .comp-indicators{
@@ -365,6 +412,8 @@
 </head>
 <body>
 
+<a class="skip-link" href="#main-content">Aller au contenu</a>
+
 <button class="menu-toggle" id="menuToggle" aria-label="Ouvrir la navigation"><span></span></button>
 
 <nav class="sidebar" id="sidebar">
@@ -373,6 +422,11 @@
     <h1>Mattéo Delmote</h1>
     <p>Administrateur réseau &amp; — en formation</p>
   </div>
+
+  <button class="theme-toggle" id="themeToggle" type="button" aria-label="Passer en mode clair">
+    <span class="theme-toggle-icon" aria-hidden="true">☀️</span>
+    <span class="theme-toggle-label">Mode clair</span>
+  </button>
 
   <div class="nav-topo">
     <div class="nav-group">
@@ -404,7 +458,7 @@
   </div>
 </nav>
 
-<main>
+<main id="main-content">
 
   <section id="accueil">
     <div class="kicker">// portfolio de compétences — BTS SIO option SISR</div>
@@ -437,16 +491,19 @@
         <h3>CENTRES D'INTÉRÊT</h3>
         <div class="tag-row">
           <span class="tag">Informatique</span>
-          <span class="tag"></span>
           <span class="tag">Sport automobile</span>
         </div>
       </div>
       <div class="profile-block">
         <h3>COMPÉTENCES INFORMATIQUES</h3>
         <div class="tag-row">
-          <span class="tag">Montage d'ordinateur</span>
-          <span class="tag">Création de machine virtuelle</span>
-          <span class="tag">Gestion d'incidents</span>
+          <span class="tag">Montage et maintenance PC</span>
+          <span class="tag">Installation Windows</span>
+          <span class="tag">Déploiement de postes</span>
+          <span class="tag">Virtualisation (VirtualBox, XCP-NG)</span>
+          <span class="tag">Gestion du parc informatique</span>
+          <span class="tag">Assistance utilisateur</span>
+          <span class="tag">Dépannage matériel et logiciel</span>
         </div>
       </div>
       <div class="profile-block">
@@ -469,16 +526,8 @@
         <div class="t-title">Brevet des collèges</div>
       </div>
       <div class="t-item">
-        <div class="t-date">2022 — 2025</div>
-        <div class="t-title">Bac Pro SN — mention assez bien</div>
-      </div>
-      <div class="t-item">
-        <div class="t-date">2024</div>
-        <div class="t-title">Habilitation électrique B0, B1V, BR (théorique)</div>
-      </div>
-      <div class="t-item">
-        <div class="t-date">2025</div>
-        <div class="t-title">Certification PIX</div>
+        <div class="t-date">2022</div>
+        <div class="t-title">Entrée en Bac Pro S.N.</div>
       </div>
       <div class="t-item">
         <div class="t-date">2022 — 2023</div>
@@ -506,6 +555,25 @@
           <li>Déploiement d'ordinateur</li>
           <li>Assistance informatique et gestion du parc informatique</li>
         </ul>
+        <div class="doc-links">
+          <a class="doc-btn" href="Rapport de Stage Dalkia.pdf" target="_blank" rel="noopener">Télécharger le rapport</a>
+        </div>
+      </div>
+      <div class="t-item">
+        <div class="t-date">2024 — 2025</div>
+        <div class="t-title">Stage de terminale — Interway</div>
+        <ul class="t-list">
+          <li>Participation à des missions d'assistance informatique</li>
+          <li>Découverte du support utilisateur et du suivi de demandes</li>
+          <li>Analyse du parc informatique et des besoins des utilisateurs</li>
+        </ul>
+        <div class="doc-links">
+          <a class="doc-btn" href="Rapport de Stage Interway.pdf" target="_blank" rel="noopener">Télécharger le rapport</a>
+        </div>
+      </div>
+      <div class="t-item">
+        <div class="t-date">2025</div>
+        <div class="t-title">Obtention du Bac Pro S.N. avec mention assez bien</div>
       </div>
       <div class="t-item">
         <div class="t-date">2026</div>
@@ -515,7 +583,12 @@
           <li>Déploiement d'ordinateur</li>
           <li>Assistance informatique et gestion du parc informatique</li>
         </ul>
+        <div class="doc-links">
+          <a class="doc-btn" href="Attestation_Matteo_Delmote.pdf" target="_blank" rel="noopener">Télécharger l'attestation</a>
+          <a class="doc-btn" href="Rapport de Stage Domoti.pdf" target="_blank" rel="noopener">Télécharger le rapport</a>
+        </div>
       </div>
+    </div>
   </section>
 
   <section id="competence-1">
@@ -605,7 +678,7 @@
     </div>
     <div class="exp-note">
       <div class="k">EXPÉRIENCE LIÉE</div>
-      <p>L'habilitation électrique B0/B1V/BR et la certification PIX font partie de cette démarche, tout comme la veille que j'entretiens autour des réseaux et de la cybersécurité.</p>
+      <p>Cette démarche s'appuie sur mon parcours scolaire, mes stages et ma volonté de progresser dans le domaine des réseaux et des systèmes informatiques.</p>
     </div>
   </section>
 
@@ -616,23 +689,23 @@
     <div class="project-grid">
       <div class="project">
         <div class="p-tag">WEB</div>
-        <div><h3>Portfolio personnel</h3><p>Conception et développement de ce site en HTML/CSS, structuré autour de la grille de compétences du BTS SIO.</p></div>
+        <div><h3>Portfolio BTS SIO</h3><p>Conception et réalisation de ce site en HTML/CSS pour présenter mon parcours, mes compétences et mes stages de manière claire et professionnelle.</p></div>
       </div>
       <div class="project">
         <div class="p-tag">VIRTUALISATION</div>
-        <div><h3>Création de machines virtuelles</h3><p>Mise en place d'environnements virtualisés sous VirtualBox pour tests et déploiements, réalisée en stage chez Loison.</p></div>
+        <div><h3>Création d'environnements virtuels</h3><p>Mise en place de machines virtuelles sous VirtualBox et exploration de solutions de virtualisation adaptées à des besoins de tests et de déploiement.</p></div>
       </div>
       <div class="project">
         <div class="p-tag">DÉPLOIEMENT</div>
-        <div><h3>Déploiement de postes avec Ventoy</h3><p>Installation de Windows sur plusieurs postes à l'aide de Ventoy pour fiabiliser et accélérer les déploiements.</p></div>
+        <div><h3>Déploiement de postes et logiciels</h3><p>Installation de Windows via Ventoy, configuration de postes, déploiement d'outils et mise en service de machines dans un contexte d'entreprise.</p></div>
+      </div>
+      <div class="project">
+        <div class="p-tag">ASSISTANCE</div>
+        <div><h3>Support utilisateur et gestion du parc</h3><p>Accompagnement des utilisateurs, diagnostic de demandes et suivi du parc informatique dans le cadre des stages.</p></div>
       </div>
       <div class="project">
         <div class="p-tag">SÉCURITÉ</div>
-        <div><h3>Audit cybersécurité</h3><p>Participation à un audit de sécurité informatique dans le cadre du stage de terminale chez Dalkia.</p></div>
-      </div>
-      <div class="project">
-        <div class="p-tag">MATÉRIEL</div>
-        <div><h3>Montage d'ordinateur</h3><p>Assemblage et configuration de postes informatiques, du choix des composants à la mise en service.</p></div>
+        <div><h3>Audit informatique et cybersécurité</h3><p>Participation à des actions de sécurité et d'analyse du système dans le cadre du stage chez Dalkia, avec une logique de prévention et de gestion des risques.</p></div>
       </div>
     </div>
   </section>
@@ -650,10 +723,10 @@
         <div class="k">TÉLÉPHONE</div>
         <div class="v">06.58.41.76.98</div>
       </a>
-      <div class="contact-card">
+      <a class="contact-card" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn de Mattéo Delmote">
         <div class="k">LINKEDIN</div>
         <div class="v">Mattéo Delmote</div>
-      </div>
+      </a>
       <div class="contact-card">
         <div class="k">LOCALISATION</div>
         <div class="v">Lille, 59800</div>
@@ -674,7 +747,9 @@
 
   function setActive(id){
     links.forEach(link => {
-      link.classList.toggle('active', link.dataset.target === id);
+      const isActive = link.dataset.target === id;
+      link.classList.toggle('active', isActive);
+      if(isActive) link.setAttribute('aria-current','page'); else link.removeAttribute('aria-current');
     });
   }
 
@@ -705,6 +780,28 @@
     link.addEventListener('click', () => {
       sidebar.classList.remove('open');
     });
+  });
+
+  // Theme toggle
+  const themeToggle = document.getElementById('themeToggle');
+  const themeLabel = themeToggle.querySelector('.theme-toggle-label');
+  const themeIcon = themeToggle.querySelector('.theme-toggle-icon');
+
+  function applyTheme(theme) {
+    const isLight = theme === 'light';
+    document.body.classList.toggle('light-theme', isLight);
+    themeLabel.textContent = isLight ? 'Mode sombre' : 'Mode clair';
+    themeIcon.textContent = isLight ? '🌙' : '☀️';
+    themeToggle.setAttribute('aria-label', isLight ? 'Passer en mode sombre' : 'Passer en mode clair');
+    localStorage.setItem('portfolio-theme', theme);
+  }
+
+  const savedTheme = localStorage.getItem('portfolio-theme') || 'dark';
+  applyTheme(savedTheme);
+
+  themeToggle.addEventListener('click', () => {
+    const nextTheme = document.body.classList.contains('light-theme') ? 'dark' : 'light';
+    applyTheme(nextTheme);
   });
 })();
 </script>
